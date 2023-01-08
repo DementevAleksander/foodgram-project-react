@@ -10,6 +10,10 @@ from .models import (
     Tag
 )
 
+class IngredientInline(admin.TabularInline):
+    model = IngredientInRecipe
+    min_num = 1
+
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
@@ -27,6 +31,7 @@ class RecipeAdmin(admin.ModelAdmin):
         'name',
         'tags',
     )
+    inlines = (IngredientInline,)
 
     @display(description='Количество в избранных')
     def added_in_favorites(self, obj):

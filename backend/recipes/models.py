@@ -45,6 +45,7 @@ class Tag(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+        ordering = ['name']
 
     def __str__(self):
         return f'Тэг: {self.name}, slug: {self.slug}.'
@@ -82,12 +83,22 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         'Время приготовления в минутах',
+        validators=[
+            MinValueValidator(
+                1,
+                message='Не менее 1 минуты!'
+            ),
+            MaxValueValidator(
+                1441,
+                message='Не более 24 часов!'
+            )
+        ]
     )
 
     class Meta:
-        ordering = ['-id']
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
+        ordering = ['-id']
 
     def __str__(self):
         return f'Рецепт: {self.name}, автор: {self.author}.'
@@ -107,11 +118,22 @@ class IngredientInRecipe(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         'Количество',
+        validators=[
+            MinValueValidator(
+                1,
+                message='Минимальное количество: 1 единица!'
+            ),
+            MaxValueValidator(
+                1000,
+                message='Максимальное количество: 5 единиц!'
+            )
+        ]
     )
 
     class Meta:
         verbose_name = 'Ингредиент в рецепте'
         verbose_name_plural = 'Ингредиенты в рецептах'
+        ordering = ['recipe']
 
     def __str__(self):
         return (
@@ -136,6 +158,7 @@ class Favourite(models.Model):
     class Meta:
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
+        ordering = ['user']
         constraints = [
             UniqueConstraint(
                 fields=['user', 'recipe'],
@@ -164,6 +187,7 @@ class ShoppingCart(models.Model):
     class Meta:
         verbose_name = 'Корзина покупок'
         verbose_name_plural = 'Корзина покупок'
+        ordering = ['user']
         constraints = [
             UniqueConstraint(
                 fields=['user', 'recipe'],

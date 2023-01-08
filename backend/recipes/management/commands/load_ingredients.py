@@ -32,8 +32,8 @@ class Command(BaseCommand):
                 for ingredient in data:
                     try:
                         Ingredient.objects.create(
-                            name=ingredient["name"],
-                            measurement_unit=ingredient["measurement_unit"]
+                            name=ingredient['name'],
+                            measurement_unit=ingredient['measurement_unit']
                         )
                         self.stdout.write(self.style.SUCCESS('Данные загружены!'))
                     except IntegrityError:

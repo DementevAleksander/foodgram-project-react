@@ -41,7 +41,7 @@ class Subscribe(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-author_id']
         constraints = [
             UniqueConstraint(
                 fields=['user', 'author'],
