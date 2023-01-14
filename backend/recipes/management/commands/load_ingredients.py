@@ -35,13 +35,46 @@ class Command(BaseCommand):
                             name=ingredient['name'],
                             measurement_unit=ingredient['measurement_unit']
                         )
-                        self.stdout.write(self.style.SUCCESS('Данные загружены!'))
                     except IntegrityError:
                         print(
                             f'Ингридиет {ingredient["name"]} '
                             f'{ingredient["measurement_unit"]} '
                             f'существует в БД!'
                         )
+                self.stdout.write(self.style.SUCCESS('Ингридиенты загружены!'))
 
         except FileNotFoundError:
-            raise CommandError('Файл отсутствует в папке data!')
+            raise CommandError('Файл не найден в папке data!')
+
+    # def add_arguments(self, parser):
+    #     parser.add_argument(
+    #         'filename',
+    #         default='tags.json',
+    #         nargs='?',
+    #         type=str
+    #     )
+
+    # def handle(self, *args, **options):
+    #     try:
+    #         with open(os.path.join(
+    #             DATA_ROOT,
+    #             options['filename']),
+    #             'r',
+    #             encoding='utf-8'
+    #         ) as file:
+    #             data = json.load(file)
+    #             for tag in data:
+    #                 try:
+    #                     Tag.objects.create(
+    #                         name=tag["name"],
+    #                         color=tag["color"],
+    #                         slug=tag["slug"],)
+    #                 except IntegrityError:
+    #                     print(
+    #                         f'Тег {tag["name"]} '
+    #                         f'{tag["color"]} '
+    #                         f'{tag["slug"]} '
+    #                         f'существует в БД!')
+    #             self.stdout.write(self.style.SUCCESS('Теги загружены!'))
+    #     except FileNotFoundError:
+    #         raise CommandError('Файл не найден в папке data!')

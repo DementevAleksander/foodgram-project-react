@@ -129,7 +129,7 @@ class IngredientInRecipe(models.Model):
             ),
             MaxValueValidator(
                 1000,
-                message='Максимальное количество: 5 единиц!'
+                message='Максимальное количество: 1000 единиц!'
             )
         ]
     )
